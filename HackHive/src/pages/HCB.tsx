@@ -1,4 +1,4 @@
-export default function HCB() {
+export defauly function HCB() {
 return(
 
 <div className="min-h-screen bg-black text-white">
@@ -12,6 +12,3 @@ return(
 
 </div>
 </section>
-</div>
-)
-}
