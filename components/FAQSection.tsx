@@ -10,23 +10,23 @@ type FAQItem = {
 const FAQ_DATA: FAQItem[] = [
   {
     question: "WHAT IS HACKHIVE?",
-    answer: "HackHive is a local Hack Club group for students who want to make things with other people around. Code, hardware, games, design, random prototypes, all of it counts. The point is to stop waiting until you feel ready and just start building."
+    answer: "HackHive is an online, India-wide Hack Club community for teenagers who make things. Software, hardware, games, art, strange prototypes: if you can build it, break it, and learn from it, it belongs here."
   },
   {
     question: "HOW DOES HACKATIME WORK?",
-    answer: "Hackatime tracks real coding time from your editor. It is basically proof that you showed up and worked on your project. Those hours can help you get API credits, stickers, parts, keyboards, and bigger grants when you keep going."
+    answer: "Hackatime records coding time from your editor and gives your project a trail of real effort. Some Hack Club programs use that work, alongside a qualifying shipped project, to award credits, hardware, grants, and other support."
   },
   {
     question: "IS AI CODE GENERATION ALLOWED?",
-    answer: "Yes, use it when it helps. Just do not let it write the whole thing while you sit there. A good rule: you should still understand the code, fix the bugs, and be able to explain what changed."
+    answer: "Yes. Use it as a power tool, not an autopilot. You should understand what ships, make the decisions, fix the failures, and be able to explain the build without hiding behind a prompt."
   },
   {
     question: "DO I NEED TO BE AN EXPERT?",
-    answer: "No. Please do not wait for that. You can show up with your first HTML file, a broken Arduino sketch, or a project folder named final-final-v3. We will meet you there."
+    answer: "No. Experts are just beginners with a longer bug history. Show up with your first HTML file, a broken Arduino sketch, or a folder called final-final-v3. We start from wherever you are."
   },
   {
     question: "HOW MUCH DOES IT COST?",
-    answer: "Nothing. HackHive and Hack Club are free for teenagers. Bring curiosity, not money."
+    answer: "Nothing. HackHive and Hack Club are free for teenagers. Your entry fee is curiosity; your receipt is whatever you make."
   }
 ];
 

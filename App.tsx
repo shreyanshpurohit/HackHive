@@ -23,35 +23,35 @@ const PROJECTS: Project[] = [
     title: 'DumbGPT \uD83E\uDEE0\uD83E\uDD54',
     tags: ['AI', 'React'],
     image: '/dumbgpt_ui.png',
-    description: 'A very unserious chatbot that answers with full confidence and almost no wisdom. Built because making dumb things is also how you learn.'
+    description: 'A chatbot with maximum confidence and minimum wisdom. Proof that a deliberately ridiculous idea can still teach you serious React and AI skills.'
   },
   {
     id: 'p2',
     title: 'Direct JSON \u2194 Raw Protobuf Editor',
     tags: ['Tooling', 'Web'],
     image: '/protobuf_ui.png',
-    description: 'A browser tool for poking at raw protobuf bytes without setting up a whole project first. Useful when you just want to see what is inside.'
+    description: 'A browser tool that cracks open raw protobuf bytes without a full project setup. Built to turn “what is even in this file?” into something you can inspect.'
   },
   {
     id: 'p3',
     title: 'Handheld game console',
     tags: ['Hardware', 'Retro'],
     image: '/blue_pcb.png',
-    description: 'A custom PCB experiment for a tiny Linux-capable handheld. Buttons, emulators, weird constraints, and a lot of learning from mistakes.'
+    description: 'A tiny Linux-capable handheld, built from the PCB up. Buttons, emulators, hard constraints, and the kind of mistakes that become real hardware knowledge.'
   },
   {
     id: 'p4',
     title: 'uVision dev board',
     tags: ['Embedded', 'C++'],
     image: '/black_pcb.png',
-    description: 'A low-power vision dev board for trying edge AI ideas without dragging around a full laptop. Small board, very real debugging sessions.'
+    description: 'A low-power vision board for edge-AI experiments without the laptop. Small footprint, ambitious target, extremely real debugging sessions.'
   }
 ];
 
 const COMMUNITY_FEATURES: Array<{ icon: LucideIcon; title: string; desc: string }> = [
-  { icon: Terminal, title: 'Join from anywhere', desc: 'No Delhi HQ right now. If you are in India, you can pull up online.' },
-  { icon: Cpu, title: 'Ask dumb questions', desc: 'Seriously. Debugging feels less cursed when someone sits with you on call.' },
-  { icon: Code, title: 'Get real support', desc: 'Your coding time can turn into grants, hardware, and actual momentum.' },
+  { icon: Terminal, title: 'No spectator mode', desc: 'Post the unfinished build. Share the ugly first version. Progress starts before polish.' },
+  { icon: Cpu, title: 'Debug with humans', desc: 'Bring the cursed error. Someone in the hive has probably fought its cousin.' },
+  { icon: Code, title: 'Turn hours into hardware', desc: 'Track the work, ship a qualifying project, and unlock support through Hack Club.' },
 ];
 
 const getIntroScrollLimit = () => (typeof window === 'undefined' ? 1000 : window.innerHeight * 1.5);
@@ -153,7 +153,7 @@ const App: React.FC = () => {
           />
         </div>
         <p className="relative z-10 font-mono text-gray-400 mt-2 md:mt-4 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center">
-          where ideas swarm
+          build · break · learn
           <span className="absolute inset-0 bg-black/60 blur-[10px] -z-10 rounded-full" />
         </p>
       </motion.div>
@@ -177,7 +177,11 @@ const App: React.FC = () => {
       <CursorBee />
       
       <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 md:px-8 py-6 mix-blend-difference pointer-events-auto">
-        <div className="font-sans text-lg md:text-xl tracking-[0.2em] font-light text-white cursor-default z-50">HACKHIVE</div>
+        <img
+          src="/hackhive.webp"
+          alt="HackHive"
+          className="h-auto w-28 md:w-36 object-contain z-50"
+        />
         
         <div className="hidden md:flex gap-10 text-xs font-mono tracking-widest uppercase">
           {NAV_ITEMS.map((item) => (
@@ -191,13 +195,13 @@ const App: React.FC = () => {
             </button>
           ))}
         </div>
-        <button 
-          onClick={() => scrollToSection('projects')}
+        <a
+          href="/join"
           className="hidden md:inline-block border border-white/20 px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 text-white cursor-pointer bg-transparent rounded-none"
           data-hover="true"
         >
-          See builds
-        </button>
+          Join HackHive
+        </a>
 
         <button 
           className="md:hidden text-white z-50 relative w-10 h-10 flex items-center justify-center cursor-pointer"
@@ -224,12 +228,12 @@ const App: React.FC = () => {
                 [{item}]
               </button>
             ))}
-            <button 
-              onClick={() => scrollToSection('projects')}
+            <a
+              href="/join"
               className="mt-8 border border-white/20 px-10 py-4 text-xs font-mono tracking-widest uppercase bg-transparent text-white hover:bg-white hover:text-black transition-all rounded-none"
             >
-              See builds
-            </button>
+              Join HackHive
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -289,7 +293,7 @@ const App: React.FC = () => {
               transition={{ delay: 0.8, duration: 1 }}
               className="text-xs md:text-sm font-mono text-gray-500 max-w-xl mx-auto px-4 uppercase tracking-[0.3em] flex items-center justify-center"
             >
-              <TerminalText text="make things break things learn" delay={1200} />
+              <TerminalText text="bring the impossible draft // leave with something real" delay={1200} />
             </motion.p>
           </div>
         </header>
@@ -311,7 +315,7 @@ const App: React.FC = () => {
                 STUFF<br/>WE MADE
               </h2>
               <p className="text-gray-500 font-mono tracking-widest uppercase text-xs">
-                // real projects, shipped messy
+                // not concepts. not coursework. things that exist.
               </p>
             </motion.div>
 
@@ -347,7 +351,7 @@ const App: React.FC = () => {
                 </h2>
                 <div className="w-12 h-px bg-white mb-6"></div>
                 <p className="text-sm md:text-base text-gray-400 mb-8 md:mb-12 font-mono leading-relaxed">
-                  We are fully online right now. No Delhi HQ, no secret room, no weird gatekeeping. If you are building from anywhere in India, come hang out, ask for help, and ship the messy thing.
+                  HackHive is an online workbench for teenage builders across India. Bring the half-working game, the impossible PCB, the app nobody asked for, or just a blank file. We will help you make the next version real.
                 </p>
                 
                 <motion.div 
@@ -389,15 +393,13 @@ const App: React.FC = () => {
                   className="mt-12"
                 >
                   <motion.a
-                    href="https://hack.club/join/GXVIWV"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/join"
                     className="group relative px-8 py-4 bg-white hover:bg-gray-200 text-black font-mono text-sm tracking-[0.2em] uppercase transition-all w-full sm:w-auto overflow-hidden flex items-center justify-center gap-4"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     data-hover="true"
                   >
-                    <span className="relative z-10">Join us!</span>
+                    <span className="relative z-10">Enter the hive</span>
                     <Terminal className="w-4 h-4 relative z-10" />
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent translate-x-[-100%] group-hover:animate-[sweep_1s_ease-in-out]" />
                   </motion.a>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 const POINTER_OFFSCREEN = -1000;
-const PARTICLE_DENSITY = 1400;
+const PARTICLE_DENSITY = 2300;
 const LINK_DISTANCE = 80;
 const MOUSE_LINK_DISTANCE = 150;
 

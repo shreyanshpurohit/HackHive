@@ -1,215 +1,229 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-type Player = {
-  x: number;
-  y: number;
-  angle: number;
-};
-
-const FOV = Math.PI / 3;
-const MAX_RAY_DISTANCE = 12;
-const RAY_STEP = 0.025;
-const MIN_RAYS = 80;
-const MOVE_SPEED = 2.4;
-const TURN_SPEED = 2.2;
-const STARTING_PLAYER: Player = { x: 1.5, y: 1.5, angle: 0 };
-
-// A tiny map keeps the arcade demo self-contained and fast to boot.
-const MAZE_MAP = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-  [1, 0, 1, 1, 0, 0, 1, 0, 0, 1],
-  [1, 0, 1, 0, 0, 0, 0, 0, 1, 1],
-  [1, 0, 0, 0, 1, 1, 1, 0, 0, 1],
-  [1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-  [1, 0, 1, 1, 1, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 1, 1, 0, 1],
-  [1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-];
-
-const hasAnyKey = (keys: Set<string>, options: string[]) => options.some((key) => keys.has(key));
-
 const Raycaster: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const keysRef = useRef<Set<string>>(new Set());
-  const playerRef = useRef<Player>({ ...STARTING_PLAYER });
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (!isPlaying || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    if (!context) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    let width = 0;
-    let height = 0;
-    let animationFrame = 0;
+    // Fixed internal resolution for that retro feel
+    const width = 320;
+    const height = 200;
+    
+    // Create an image data buffer
+    let imageData = ctx.createImageData(width, height);
+
+    // Map definition
+    const mapWidth = 8;
+    const mapHeight = 8;
+    const worldMap = [
+      [1,1,1,1,1,1,1,1],
+      [1,0,0,0,0,0,0,1],
+      [1,0,1,0,0,2,0,1],
+      [1,0,1,0,0,0,0,1],
+      [1,0,1,1,0,2,0,1],
+      [1,0,0,0,0,2,0,1],
+      [1,0,0,0,0,0,0,1],
+      [1,1,1,1,1,1,1,1],
+    ];
+
+    // Player state
+    let posX = 3.5, posY = 3.5;  // x and y start position
+    let dirX = -1, dirY = 0; // initial direction vector
+    let planeX = 0, planeY = 0.66; // the 2d raycaster version of camera plane
+
     let lastTime = performance.now();
+    let animationFrameId: number;
 
-    const resize = () => {
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-
-      // Draw at device-pixel resolution, then work in normal CSS pixels.
-      canvas.width = width * window.devicePixelRatio;
-      canvas.height = height * window.devicePixelRatio;
-      context.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+    const keys: { [key: string]: boolean } = {
+      ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false,
+      w: false, a: false, s: false, d: false
     };
 
-    const isWall = (x: number, y: number) => {
-      const mapX = Math.floor(x);
-      const mapY = Math.floor(y);
-      return MAZE_MAP[mapY]?.[mapX] !== 0;
-    };
+    const handleKeyDown = (e: KeyboardEvent) => { keys[e.key] = true; };
+    const handleKeyUp = (e: KeyboardEvent) => { keys[e.key] = false; };
 
-    const movePlayer = (deltaTime: number) => {
-      const player = playerRef.current;
-      const moveStep = deltaTime * MOVE_SPEED;
-      const turnStep = deltaTime * TURN_SPEED;
+    // Need to focus canvas to get key events. Or add window listeners
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
-      if (hasAnyKey(keysRef.current, ['a', 'arrowleft'])) {
-        player.angle -= turnStep;
-      }
-      if (hasAnyKey(keysRef.current, ['d', 'arrowright'])) {
-        player.angle += turnStep;
-      }
-
-      const direction =
-        Number(hasAnyKey(keysRef.current, ['w', 'arrowup'])) -
-        Number(hasAnyKey(keysRef.current, ['s', 'arrowdown']));
-
-      if (direction !== 0) {
-        const nextX = player.x + Math.cos(player.angle) * moveStep * direction;
-        const nextY = player.y + Math.sin(player.angle) * moveStep * direction;
-
-        // Resolve axes separately so sliding along walls feels natural.
-        if (!isWall(nextX, player.y)) player.x = nextX;
-        if (!isWall(player.x, nextY)) player.y = nextY;
+    const drawLine = (x: number, drawStart: number, drawEnd: number, color: [number, number, number]) => {
+      for (let y = drawStart; y < drawEnd; y++) {
+        const index = (y * width + x) * 4;
+        imageData.data[index] = color[0];
+        imageData.data[index + 1] = color[1];
+        imageData.data[index + 2] = color[2];
+        imageData.data[index + 3] = 255;
       }
     };
 
-    const castRay = (angle: number) => {
-      const player = playerRef.current;
-      let distance = 0;
+    const render = () => {
+      const currentTime = performance.now();
+      const frameTime = (currentTime - lastTime) / 1000.0;
+      lastTime = currentTime;
 
-      // A stepped ray is enough for this small maze and keeps the math easy to follow.
-      while (distance < MAX_RAY_DISTANCE) {
-        const testX = player.x + Math.cos(angle) * distance;
-        const testY = player.y + Math.sin(angle) * distance;
-
-        if (isWall(testX, testY)) return distance;
-        distance += RAY_STEP;
+      // Clear screen
+      for (let i = 0; i < width * height * 4; i += 4) {
+        let isFloor = Math.floor((i / 4) / width) >= height / 2;
+        imageData.data[i] = isFloor ? 30 : 10;
+        imageData.data[i+1] = isFloor ? 30 : 10;
+        imageData.data[i+2] = isFloor ? 30 : 10;
+        imageData.data[i+3] = 255;
       }
 
-      return MAX_RAY_DISTANCE;
-    };
+      for (let x = 0; x < width; x++) {
+        // calculate ray position and direction
+        let cameraX = 2 * x / width - 1; // x-coordinate in camera space
+        let rayDirX = dirX + planeX * cameraX;
+        let rayDirY = dirY + planeY * cameraX;
 
-    const renderMinimap = () => {
-      const scale = 8;
-      const padding = 14;
-      const player = playerRef.current;
+        // which box of the map we're in
+        let mapX = Math.floor(posX);
+        let mapY = Math.floor(posY);
 
-      context.save();
-      context.globalAlpha = 0.72;
-      MAZE_MAP.forEach((row, y) => {
-        row.forEach((cell, x) => {
-          context.fillStyle = cell ? '#ffffff' : '#1f2937';
-          context.fillRect(padding + x * scale, padding + y * scale, scale - 1, scale - 1);
-        });
-      });
-      context.fillStyle = '#38bdf8';
-      context.beginPath();
-      context.arc(padding + player.x * scale, padding + player.y * scale, 3, 0, Math.PI * 2);
-      context.fill();
-      context.restore();
-    };
+        // length of ray from current position to next x or y-side
+        let sideDistX;
+        let sideDistY;
 
-    const render = (time: number) => {
-      const deltaTime = Math.min((time - lastTime) / 1000, 0.05);
-      lastTime = time;
-      movePlayer(deltaTime);
+        // length of ray from one x or y-side to next x or y-side
+        let deltaDistX = (rayDirX === 0) ? 1e30 : Math.abs(1 / rayDirX);
+        let deltaDistY = (rayDirY === 0) ? 1e30 : Math.abs(1 / rayDirY);
+        let perpWallDist;
 
-      context.fillStyle = '#050505';
-      context.fillRect(0, 0, width, height);
+        // what direction to step in x or y-direction (either +1 or -1)
+        let stepX;
+        let stepY;
 
-      const horizon = height / 2;
-      const ceiling = context.createLinearGradient(0, 0, 0, horizon);
-      ceiling.addColorStop(0, '#0f172a');
-      ceiling.addColorStop(1, '#020617');
-      context.fillStyle = ceiling;
-      context.fillRect(0, 0, width, horizon);
+        let hit = 0; // was there a wall hit?
+        let side = 0; // was a NS or a EW wall hit?
 
-      const floor = context.createLinearGradient(0, horizon, 0, height);
-      floor.addColorStop(0, '#111827');
-      floor.addColorStop(1, '#000000');
-      context.fillStyle = floor;
-      context.fillRect(0, horizon, width, height - horizon);
+        if (rayDirX < 0) {
+          stepX = -1;
+          sideDistX = (posX - mapX) * deltaDistX;
+        } else {
+          stepX = 1;
+          sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+        }
+        if (rayDirY < 0) {
+          stepY = -1;
+          sideDistY = (posY - mapY) * deltaDistY;
+        } else {
+          stepY = 1;
+          sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+        }
 
-      const rays = Math.max(MIN_RAYS, Math.floor(width / 6));
-      const player = playerRef.current;
+        // perform DDA
+        while (hit === 0) {
+          if (sideDistX < sideDistY) {
+            sideDistX += deltaDistX;
+            mapX += stepX;
+            side = 0;
+          } else {
+            sideDistY += deltaDistY;
+            mapY += stepY;
+            side = 1;
+          }
+          if (worldMap[mapX][mapY] > 0) hit = 1;
+        }
 
-      for (let i = 0; i < rays; i += 1) {
-        const rayAngle = player.angle - FOV / 2 + (i / rays) * FOV;
-        const rawDistance = castRay(rayAngle);
-        const distance = rawDistance * Math.cos(rayAngle - player.angle);
-        const wallHeight = Math.min(height, height / Math.max(distance, 0.12));
-        const shade = Math.max(42, 255 - distance * 26);
-        const stripWidth = width / rays + 1;
+        if (side === 0) perpWallDist = (sideDistX - deltaDistX);
+        else perpWallDist = (sideDistY - deltaDistY);
 
-        context.fillStyle = `rgb(${shade}, ${shade}, ${shade})`;
-        context.fillRect(i * stripWidth, horizon - wallHeight / 2, stripWidth, wallHeight);
+        let lineHeight = Math.floor(height / perpWallDist);
+
+        let drawStart = -lineHeight / 2 + height / 2;
+        if (drawStart < 0) drawStart = 0;
+        let drawEnd = lineHeight / 2 + height / 2;
+        if (drawEnd >= height) drawEnd = height - 1;
+
+        let colorVal = worldMap[mapX][mapY];
+        let color: [number, number, number];
+        
+        switch (colorVal) {
+          case 1: color = [255, 0, 0]; break;
+          case 2: color = [255, 255, 255]; break;
+          default: color = [0, 255, 0]; break;
+        }
+
+        if (side === 1) {
+          color = [color[0] / 2, color[1] / 2, color[2] / 2];
+        }
+
+        drawLine(x, Math.floor(drawStart), Math.floor(drawEnd), color);
       }
 
-      renderMinimap();
-      animationFrame = requestAnimationFrame(render);
-    };
+      ctx.putImageData(imageData, 0, 0);
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      const key = event.key.toLowerCase();
-      if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) {
-        event.preventDefault();
+      // speed modifiers
+      let moveSpeed = frameTime * 3.0;
+      let rotSpeed = frameTime * 2.0;
+
+      // move forward
+      if (keys['w'] || keys['ArrowUp']) {
+        if(worldMap[Math.floor(posX + dirX * moveSpeed)][Math.floor(posY)] == 0) posX += dirX * moveSpeed;
+        if(worldMap[Math.floor(posX)][Math.floor(posY + dirY * moveSpeed)] == 0) posY += dirY * moveSpeed;
       }
-      keysRef.current.add(key);
-    };
-    const onKeyUp = (event: KeyboardEvent) => keysRef.current.delete(event.key.toLowerCase());
+      // move backwards
+      if (keys['s'] || keys['ArrowDown']) {
+        if(worldMap[Math.floor(posX - dirX * moveSpeed)][Math.floor(posY)] == 0) posX -= dirX * moveSpeed;
+        if(worldMap[Math.floor(posX)][Math.floor(posY - dirY * moveSpeed)] == 0) posY -= dirY * moveSpeed;
+      }
+      // rotate right
+      if (keys['d'] || keys['ArrowRight']) {
+        let oldDirX = dirX;
+        dirX = dirX * Math.cos(-rotSpeed) - dirY * Math.sin(-rotSpeed);
+        dirY = oldDirX * Math.sin(-rotSpeed) + dirY * Math.cos(-rotSpeed);
+        let oldPlaneX = planeX;
+        planeX = planeX * Math.cos(-rotSpeed) - planeY * Math.sin(-rotSpeed);
+        planeY = oldPlaneX * Math.sin(-rotSpeed) + planeY * Math.cos(-rotSpeed);
+      }
+      // rotate left
+      if (keys['a'] || keys['ArrowLeft']) {
+        let oldDirX = dirX;
+        dirX = dirX * Math.cos(rotSpeed) - dirY * Math.sin(rotSpeed);
+        dirY = oldDirX * Math.sin(rotSpeed) + dirY * Math.cos(rotSpeed);
+        let oldPlaneX = planeX;
+        planeX = planeX * Math.cos(rotSpeed) - planeY * Math.sin(rotSpeed);
+        planeY = oldPlaneX * Math.sin(rotSpeed) + planeY * Math.cos(rotSpeed);
+      }
 
-    playerRef.current = { ...STARTING_PLAYER };
-    resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-    animationFrame = requestAnimationFrame(render);
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
 
     return () => {
-      cancelAnimationFrame(animationFrame);
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
-      keysRef.current.clear();
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, [isPlaying]);
 
   return (
-    <div className="group relative flex h-full w-full cursor-crosshair items-center justify-center overflow-hidden bg-black">
+    <div className="w-full h-full relative group cursor-pointer flex flex-col items-center overflow-hidden" onClick={() => setIsPlaying(true)}>
       {isPlaying ? (
-        <canvas ref={canvasRef} className="block h-full w-full" />
+        <canvas 
+          ref={canvasRef} 
+          width={320} 
+          height={200} 
+          className="w-full h-full object-cover rendering-pixelated outline-none" 
+          tabIndex={0}
+        />
       ) : (
-        <button
-          type="button"
-          className="absolute inset-0 flex flex-col items-center justify-center bg-black text-white transition hover:bg-white/5"
-          onClick={() => setIsPlaying(true)}
-          data-hover="true"
-        >
-          <span className="font-mono text-xl font-bold uppercase tracking-[0.3em] md:text-3xl">
-            START_MAZE
-          </span>
-        </button>
+        <div className="absolute inset-0 flex items-center justify-center bg-black hover:bg-white/5 transition duration-300">
+           <h2 className="text-xl md:text-3xl font-mono uppercase tracking-[0.3em] font-bold text-white group-hover:text-red-500 transition-colors">
+              CLICK_TO_RUN
+           </h2>
+        </div>
       )}
-      <div className="pointer-events-none absolute left-0 right-0 top-0 z-10 flex justify-between border-b border-white/20 bg-black/80 p-2 font-mono text-[10px] text-gray-500">
-        <span>TINY_RAYCASTER</span>
-        <span>WASD / ARROWS</span>
+      <div className="absolute top-0 left-0 right-0 p-2 border-b border-white/20 flex justify-between font-mono text-[10px] text-gray-500 z-10 bg-black/80">
+        <span>FPS_RAYCASTER_ENGINE</span>
+        <span>WASD_TO_MOVE</span>
       </div>
     </div>
   );

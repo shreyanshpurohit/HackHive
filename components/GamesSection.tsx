@@ -8,14 +8,14 @@ const GAMES = [
     id: 'rd_001',
     title: 'Raycaster JS Demo',
     author: '@satvikhardat',
-    description: 'Started as a Sprig experiment, then got dragged into React and canvas for the site. Tiny maze, old-school raycasting math, very satisfying when it finally moves.',
+    description: 'A Sprig experiment that escaped into React and canvas. Tiny maze, old-school raycasting math, and the exact kind of “what if?” detour we celebrate.',
     component: <Raycaster />
   },
   {
     id: 'rd_002',
     title: 'Kinetic Swarm',
     author: '@harmanvij',
-    description: 'Hold the mouse and the whole swarm leans toward you. It began as a JavaScript learning project and turned into a pretty fun little physics toy.',
+    description: 'Hold the mouse and the whole swarm bends toward you. A JavaScript lesson that kept evolving until it became a tactile little physics toy.',
     component: <GravitySim />
   }
 ];
@@ -73,7 +73,7 @@ const GamesSection = () => {
           BUILDS
         </h2>
         <p className="text-gray-500 font-mono tracking-[0.3em] uppercase text-xs md:text-sm mt-6">
-          // play with what people made
+          // click it. move it. break it. these builds are alive.
         </p>
       </div>
 
