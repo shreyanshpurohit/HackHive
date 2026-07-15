@@ -77,7 +77,7 @@ const App: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const galaxyScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0.5]);
+  const galaxyScale = useTransform(scrollY, [0, scrollLimit * 0.8], [0.75, 0.4]);
   const galaxyOpacity = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0]);
 
   const textScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 25]);
@@ -147,7 +147,7 @@ const App: React.FC = () => {
       >
         <div
           className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-          style={{ width: 'min(75vw, 50rem)' }}
+          style={{ width: 'min(70vw, 35rem)' }}
         >
           <motion.div
             className="w-full relative flex items-center justify-center will-change-transform"
