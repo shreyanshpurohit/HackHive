@@ -46,7 +46,7 @@ const JoinPage = () => {
 
       <nav className="relative z-20 flex items-center justify-between px-6 py-6 md:px-10">
         <a href="/" data-hover="true" aria-label="HackHive home">
-          <img src="/hackhive.webp" alt="HackHive" className="h-auto w-28 object-contain md:w-36" />
+          <img src="/hackhive.png" alt="HackHive" className="h-auto w-28 object-contain md:w-36" />
         </a>
         <a
           href="/"

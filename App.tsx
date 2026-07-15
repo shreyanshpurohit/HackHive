@@ -147,7 +147,7 @@ const App: React.FC = () => {
         <div className="relative flex items-center justify-center mb-6 w-3/4 max-w-[min(50rem,90vw)]">
           <div className="absolute inset-0 bg-black/80 blur-[40px] rounded-[100%] pointer-events-none" />
           <motion.img 
-            src="/hackhive.webp" 
+            src="/hackhive.png" 
             alt="HackHive" 
             className="w-full relative z-10 pointer-events-none object-contain"
           />
@@ -178,7 +178,7 @@ const App: React.FC = () => {
       
       <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 md:px-8 py-6 mix-blend-difference pointer-events-auto">
         <img
-          src="/hackhive.webp"
+          src="/hackhive.png"
           alt="HackHive"
           className="h-auto w-28 md:w-36 object-contain z-50"
         />
@@ -263,7 +263,7 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/80 blur-[60px] rounded-[100%] pointer-events-none -z-10" />
                 <motion.img 
-                  src="/hackhive.webp"
+                  src="/hackhive.png"
                   alt="HackHive"
                   className="w-full object-contain relative z-10"
                   initial={{ rotateX: 45, opacity: 0, y: 100 }}
@@ -409,7 +409,7 @@ const App: React.FC = () => {
               <div className="lg:col-span-7 relative h-[300px] md:h-full min-h-[500px] w-full order-1 lg:order-2 border border-white/10 p-2">
                 <div className="relative h-full w-full overflow-hidden group">
                   <img 
-                    src="/hackhive-letter.webp" 
+                    src="/hackhive-letter.png" 
                     alt="HackHive letter h with bees and a honeycomb pattern"
                     width={609}
                     height={665}
