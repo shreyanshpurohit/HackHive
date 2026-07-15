@@ -80,7 +80,7 @@ const App: React.FC = () => {
   const galaxyScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0.5]);
   const galaxyOpacity = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0]);
 
-  const textScale = useTransform(scrollY, [0, scrollLimit * 0.8], [0.04, 1]);
+  const textScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 25]);
   const textOpacity = useTransform(scrollY, [scrollLimit * 0.3, scrollLimit * 0.8], [1, 0]);
   const overlayOpacity = useTransform(scrollY, [scrollLimit * 0.8, scrollLimit], [1, 0]);
   const scrollPromptOpacity = useTransform(scrollY, [0, 100], [1, 0]);
@@ -135,7 +135,6 @@ const App: React.FC = () => {
           style={{
             scale: galaxyScale,
             opacity: galaxyOpacity,
-            transform: 'translateZ(0)',
           }}
         >
           <Galaxy />
@@ -148,7 +147,7 @@ const App: React.FC = () => {
       >
         <div
           className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-          style={{ width: 'min(1875vw, 1250rem)' }}
+          style={{ width: 'min(75vw, 50rem)' }}
         >
           <motion.div
             className="w-full relative flex items-center justify-center will-change-transform"
