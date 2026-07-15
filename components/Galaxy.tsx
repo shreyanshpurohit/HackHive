@@ -69,10 +69,17 @@ const Galaxy: React.FC = () => {
             height: 140, 
             scale: sunScale, 
             opacity: sunOpacity,
-            filter: 'drop-shadow(0px 0px 40px rgba(255, 200, 0, 0.4)) drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.8))'
           }}
         >
-          <svg viewBox="-80 -80 160 160" className="w-full h-full" style={{ color: "rgba(255, 220, 100, 0.9)" }}>
+          {/* Hardware-accelerated radial-gradient glow */}
+          <div 
+            className="absolute inset-0 rounded-full pointer-events-none transform-gpu"
+            style={{
+              background: 'radial-gradient(circle, rgba(255, 200, 0, 0.4) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 70%)',
+              filter: 'blur(15px)',
+            }}
+          />
+          <svg viewBox="-80 -80 160 160" className="w-full h-full relative z-10" style={{ color: "rgba(255, 220, 100, 0.9)" }}>
             {hexagons.map(hex => (
               <polygon
                 key={hex.id}
@@ -107,12 +114,15 @@ const Galaxy: React.FC = () => {
                 top: '50%',
                 left: -orbit.planetSize,
                 transform: 'translateY(-50%)',
-                filter: 'drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.5))'
               }}
             >
+              {/* Hardware-accelerated glow for planets */}
+              <div 
+                className="absolute inset-0 rounded-full bg-white/20 blur-[4px] pointer-events-none transform-gpu"
+              />
               <svg 
                 viewBox="0 0 100 100" 
-                className="w-full h-full text-yellow-300" 
+                className="w-full h-full text-yellow-300 relative z-10" 
               >
                 <path d="M42 38 C38 13 58 1 77 13 C75 33 60 45 42 38 Z" fill="rgba(255,255,255,0.72)" />
                 <path d="M52 39 C56 13 80 5 94 24 C86 42 68 48 52 39 Z" fill="rgba(255,255,255,0.64)" />

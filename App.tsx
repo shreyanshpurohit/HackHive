@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring, useMotionValueEvent } from 'framer-motion';
 import { Terminal, Cpu, Code, Menu, X, ArrowDown, type LucideIcon } from 'lucide-react';
 import Constellations from './components/Constellations';
 import CustomCursor from './components/CustomCursor';
@@ -61,6 +61,15 @@ const App: React.FC = () => {
 
   // The intro animation should feel proportional to the current viewport height.
   const [scrollLimit, setScrollLimit] = useState(getIntroScrollLimit);
+  const [showIntro, setShowIntro] = useState(true);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > scrollLimit + 50) {
+      if (showIntro) setShowIntro(false);
+    } else {
+      if (!showIntro) setShowIntro(true);
+    }
+  });
 
   const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
   const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
@@ -120,60 +129,63 @@ const App: React.FC = () => {
         <HiveField />
       </div>
 
-      <motion.div
-        className="fixed inset-0 z-40 flex justify-center items-center pointer-events-none overflow-hidden bg-transparent"
-        style={{ opacity: overlayOpacity }}
-      >
-        <motion.div 
-          className="absolute inset-0 bg-[#000]"
-          style={{ opacity: overlayOpacity }}
-        />
-
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center will-change-transform"
-          style={{
-            scale: galaxyScale,
-            opacity: galaxyOpacity,
-            transform: 'translateZ(0)',
-          }}
-        >
-          <Galaxy />
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none overflow-hidden"
-        style={{ opacity: textOpacity }}
-      >
-        <div
-          className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-          style={{ width: 'min(75vw, 50rem)' }}
-        >
+      {showIntro && (
+        <>
           <motion.div
-            className="w-full relative flex items-center justify-center"
-            style={{ scale: textScale }}
+            className="fixed inset-0 z-40 flex justify-center items-center pointer-events-none overflow-hidden bg-transparent"
+            style={{ opacity: overlayOpacity }}
+          >
+            <motion.div 
+              className="absolute inset-0 bg-[#000]"
+              style={{ opacity: overlayOpacity }}
+            />
+
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center will-change-transform"
+              style={{
+                scale: galaxyScale,
+                opacity: galaxyOpacity,
+                transform: 'translateZ(0)',
+              }}
+            >
+              <Galaxy />
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none overflow-hidden"
+            style={{ opacity: textOpacity }}
           >
             <div
-              className="absolute inset-0 bg-black/80 rounded-[100%] pointer-events-none"
-              style={{ filter: 'blur(40px)' }}
-            />
-            <img
-              src="/hackhive.png"
-              alt="HackHive"
-              width="18000"
-              height="10125"
-              className="w-full h-auto relative z-10 pointer-events-none object-contain"
-            />
+              className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
+              style={{ width: 'min(75vw, 50rem)' }}
+            >
+              {/* Blur backdrop is outside the scaling container so it is cheap to render */}
+              <div
+                className="absolute inset-0 bg-black/80 rounded-[100%] pointer-events-none"
+                style={{ filter: 'blur(40px)' }}
+              />
+              <motion.div
+                className="w-full relative flex items-center justify-center will-change-transform"
+                style={{ scale: textScale }}
+              >
+                <img
+                  src="/hackhive.svg"
+                  alt="HackHive"
+                  className="w-full h-auto relative z-10 pointer-events-none object-contain"
+                />
+              </motion.div>
+            </div>
+            <motion.p
+              className="absolute left-1/2 top-[calc(50%+min(28vw,19rem))] z-10 -translate-x-1/2 font-mono text-gray-400 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center whitespace-nowrap"
+              style={{ opacity: introTaglineOpacity }}
+            >
+              build · break · learn
+              <span className="absolute inset-0 bg-black/60 blur-[10px] -z-10 rounded-full" />
+            </motion.p>
           </motion.div>
-        </div>
-        <motion.p
-          className="absolute left-1/2 top-[calc(50%+min(28vw,19rem))] z-10 -translate-x-1/2 font-mono text-gray-400 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center whitespace-nowrap"
-          style={{ opacity: introTaglineOpacity }}
-        >
-          build · break · learn
-          <span className="absolute inset-0 bg-black/60 blur-[10px] -z-10 rounded-full" />
-        </motion.p>
-      </motion.div>
+        </>
+      )}
 
       <motion.div 
         className="fixed bottom-12 left-0 right-0 flex flex-col items-center justify-center z-50 pointer-events-none"
@@ -280,7 +292,7 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/80 blur-[60px] rounded-[100%] pointer-events-none -z-10" />
                 <motion.img 
-                  src="/hackhive.png"
+                  src="/hackhive.webp"
                   alt="HackHive"
                   className="w-full object-contain relative z-10"
                   initial={{ rotateX: 45, opacity: 0, y: 100 }}
@@ -426,7 +438,7 @@ const App: React.FC = () => {
               <div className="lg:col-span-7 relative h-[300px] md:h-full min-h-[500px] w-full order-1 lg:order-2 border border-white/10 p-2">
                 <div className="relative h-full w-full overflow-hidden group">
                   <img 
-                    src="/hackhive-letter.png" 
+                    src="/hackhive-letter.webp" 
                     alt="HackHive letter h with bees and a honeycomb pattern"
                     width={609}
                     height={665}
