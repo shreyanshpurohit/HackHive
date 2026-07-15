@@ -115,7 +115,7 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              <GlitchText text="[ 01_NOT_A_CLASS ]" className="whitespace-nowrap" />
+              <GlitchText text="[ 01_NOT_A_CLASS ]" />
             </div>
             <div className="md:col-span-8 text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
               <TypewriterText text="HackHive is not another place to watch someone else code. It is where your weird idea gets a repo, a circuit, a playtest, and a deadline. Build it. Break it. Ask the question. Fix one thing. Then show us what changed." />
@@ -130,7 +130,7 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              <GlitchText text="[ 02_PROOF_OVER_POLISH ]" className="whitespace-nowrap" />
+              <GlitchText text="[ 02_PROOF_OVER_POLISH ]" />
             </div>
             <div className="md:col-span-8 flex flex-col gap-6">
               <div className="text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
@@ -156,10 +156,10 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              <GlitchText text="[ 03_ONE_HIVE_NO_POSTCODE ]" className="whitespace-nowrap" />
+              <GlitchText text="[ 03_ONE_HIVE_NO_POSTCODE ]" />
             </div>
             <div className="md:col-span-8 text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
-                <TypewriterText text="HackHive is a community for makers. If you are ready to make something and let other people see the work in progress, pull up." />
+                <TypewriterText text="HackHive is online and India-wide. Your city, school, grade, and current skill level do not decide whether you belong. Curiosity does. If you are ready to make something and let other people see the work in progress, pull up." />
             </div>
           </motion.div>
 

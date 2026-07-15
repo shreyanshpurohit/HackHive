@@ -72,7 +72,7 @@ const JoinPage = () => {
             Three steps.<br />One hive.
           </h1>
           <p className="mt-8 max-w-2xl font-mono text-sm leading-relaxed text-gray-400 md:text-base">
-            No experience check. No complicated onboarding. Register, join the conversation, and start building with teenagers.
+            No experience check. No complicated onboarding. Register, join the conversation, and start building with teenagers across India.
           </p>
         </motion.div>
 
