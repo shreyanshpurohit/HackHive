@@ -61,15 +61,7 @@ const App: React.FC = () => {
 
   // The intro animation should feel proportional to the current viewport height.
   const [scrollLimit, setScrollLimit] = useState(getIntroScrollLimit);
-  const [showIntro, setShowIntro] = useState(true);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > scrollLimit + 50) {
-      if (showIntro) setShowIntro(false);
-    } else {
-      if (!showIntro) setShowIntro(true);
-    }
-  });
+  const introDisplay = useTransform(scrollY, (value) => value > scrollLimit + 50 ? 'none' : 'flex');
 
   const mouseX = useMotionValue(typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
   const mouseY = useMotionValue(typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
@@ -129,63 +121,61 @@ const App: React.FC = () => {
         <HiveField />
       </div>
 
-      {showIntro && (
-        <>
-          <motion.div
-            className="fixed inset-0 z-40 flex justify-center items-center pointer-events-none overflow-hidden bg-transparent"
-            style={{ opacity: overlayOpacity }}
-          >
-            <motion.div 
-              className="absolute inset-0 bg-[#000]"
-              style={{ opacity: overlayOpacity }}
-            />
+      <motion.div
+        className="fixed inset-0 z-40 flex justify-center items-center pointer-events-none overflow-hidden bg-transparent"
+        style={{ opacity: overlayOpacity, display: introDisplay }}
+      >
+        <motion.div 
+          className="absolute inset-0 bg-[#000]"
+          style={{ opacity: overlayOpacity }}
+        />
 
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center will-change-transform"
-              style={{
-                scale: galaxyScale,
-                opacity: galaxyOpacity,
-                transform: 'translateZ(0)',
-              }}
-            >
-              <Galaxy />
-            </motion.div>
-          </motion.div>
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center will-change-transform"
+          style={{
+            scale: galaxyScale,
+            opacity: galaxyOpacity,
+            transform: 'translateZ(0)',
+          }}
+        >
+          <Galaxy />
+        </motion.div>
+      </motion.div>
 
+      <motion.div
+        className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none overflow-hidden"
+        style={{ opacity: textOpacity, display: introDisplay }}
+      >
+        <div
+          className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
+          style={{ width: 'min(1875vw, 1250rem)' }}
+        >
           <motion.div
-            className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none overflow-hidden"
-            style={{ opacity: textOpacity }}
+            className="w-full relative flex items-center justify-center will-change-transform"
+            style={{ scale: textScale }}
           >
+            {/* Hardware-accelerated radial-gradient glow (scales in sync with the logo) */}
             <div
-              className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-              style={{ width: 'min(1875vw, 1250rem)' }}
-            >
-              {/* Blur backdrop is outside the scaling container so it is cheap to render */}
-              <div
-                className="absolute inset-0 bg-black/80 rounded-[100%] pointer-events-none"
-                style={{ filter: 'blur(40px)' }}
-              />
-              <motion.div
-                className="w-full relative flex items-center justify-center will-change-transform"
-                style={{ scale: textScale }}
-              >
-                <img
-                  src="/hackhive.svg"
-                  alt="HackHive"
-                  className="w-full h-auto relative z-10 pointer-events-none object-contain"
-                />
-              </motion.div>
-            </div>
-            <motion.p
-              className="absolute left-1/2 top-[calc(50%+min(28vw,19rem))] z-10 -translate-x-1/2 font-mono text-gray-400 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center whitespace-nowrap"
-              style={{ opacity: introTaglineOpacity }}
-            >
-              build · break · learn
-              <span className="absolute inset-0 bg-black/60 blur-[10px] -z-10 rounded-full" />
-            </motion.p>
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 45%, transparent 65%)',
+              }}
+            />
+            <img
+              src="/hackhive.svg"
+              alt="HackHive"
+              className="w-full h-auto relative z-10 pointer-events-none object-contain"
+            />
           </motion.div>
-        </>
-      )}
+        </div>
+        <motion.p
+          className="absolute left-1/2 top-[calc(50%+min(28vw,19rem))] z-10 -translate-x-1/2 font-mono text-gray-400 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center whitespace-nowrap"
+          style={{ opacity: introTaglineOpacity }}
+        >
+          build · break · learn
+          <span className="absolute inset-0 bg-black/60 blur-[10px] -z-10 rounded-full" />
+        </motion.p>
+      </motion.div>
 
       <motion.div 
         className="fixed bottom-12 left-0 right-0 flex flex-col items-center justify-center z-50 pointer-events-none"
