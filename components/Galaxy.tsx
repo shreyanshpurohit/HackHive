@@ -71,12 +71,11 @@ const Galaxy: React.FC = () => {
             opacity: sunOpacity,
           }}
         >
-          {/* Hardware-accelerated radial-gradient glow */}
+          {/* Radial-gradient glow to prevent compositing issues */}
           <div 
-            className="absolute inset-0 rounded-full pointer-events-none transform-gpu"
+            className="absolute inset-0 rounded-full pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, rgba(255, 200, 0, 0.4) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 70%)',
-              filter: 'blur(15px)',
+              background: 'radial-gradient(circle, rgba(255, 200, 0, 0.5) 0%, rgba(255, 220, 100, 0.2) 50%, transparent 75%)',
             }}
           />
           <svg viewBox="-80 -80 160 160" className="w-full h-full relative z-10" style={{ color: "rgba(255, 220, 100, 0.9)" }}>
@@ -116,9 +115,12 @@ const Galaxy: React.FC = () => {
                 transform: 'translateY(-50%)',
               }}
             >
-              {/* Hardware-accelerated glow for planets */}
+              {/* Radial gradient glow to prevent browser compositing flickering */}
               <div 
-                className="absolute inset-0 rounded-full bg-white/20 blur-[4px] pointer-events-none transform-gpu"
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%)',
+                }}
               />
               <svg 
                 viewBox="0 0 100 100" 

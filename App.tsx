@@ -161,7 +161,7 @@ const App: React.FC = () => {
               }}
             />
             <img
-              src="/hackhive.svg"
+              src="/hackhive-banner.webp"
               alt="HackHive"
               className="w-full h-auto relative z-10 pointer-events-none object-contain"
             />
@@ -281,7 +281,7 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/80 blur-[60px] rounded-[100%] pointer-events-none -z-10" />
                 <motion.img 
-                  src="/hackhive.svg"
+                  src="/hackhive-banner.webp"
                   alt="HackHive"
                   className="w-full object-contain relative z-10"
                   initial={{ rotateX: 45, opacity: 0, y: 100 }}
