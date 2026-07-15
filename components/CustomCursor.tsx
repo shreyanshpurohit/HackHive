@@ -12,10 +12,11 @@ type CursorParticle = {
 };
 
 const TRAIL_LIFETIME_MS = 800;
-const TRAIL_SPAWN_INTERVAL_MS = 30;
-const MAX_TRAIL_PARTICLES = 20;
+const TRAIL_SPAWN_INTERVAL_MS = 80;
+const MAX_TRAIL_PARTICLES = 6;
 
 const CustomCursor: React.FC = () => {
+  const [enabled, setEnabled] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [particles, setParticles] = useState<CursorParticle[]>([]);
   const particleIdCounter = useRef(0);
@@ -28,6 +29,14 @@ const CustomCursor: React.FC = () => {
   const springConfig = { damping: 20, stiffness: 350, mass: 0.1 }; 
   const x = useSpring(mouseX, springConfig);
   const y = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+    if (!isCoarse) {
+      setEnabled(true);
+    }
+  }, []);
 
   useEffect(() => {
     let lastTime = 0;
@@ -73,6 +82,8 @@ const CustomCursor: React.FC = () => {
     window.addEventListener('mousemove', updateMousePosition, { passive: true });
     return () => window.removeEventListener('mousemove', updateMousePosition);
   }, [mouseX, mouseY]);
+
+  if (!enabled) return null;
 
   return (
     <>

@@ -29,7 +29,30 @@ const GlitchText = ({ text, className }: { text: string; className?: string }) =
 };
 
 const TypewriterText = ({ text, className = "" }: { text: string; className?: string }) => {
-  const words = text.split(" ");
+  const tokens = useMemo(() => {
+    const words = text.split(" ");
+    const result: Array<{ type: 'special' | 'plain'; text: string }> = [];
+    let currentPlain: string[] = [];
+
+    for (const word of words) {
+      const cleanWord = word.replace(/[^a-zA-Z0-9-]/g, '');
+      const isSpecial = cleanWord === "HACKHIVE" || cleanWord === "Macbook" || EMPHASIZED_WORDS.has(cleanWord);
+      
+      if (isSpecial) {
+        if (currentPlain.length > 0) {
+          result.push({ type: 'plain', text: currentPlain.join(" ") });
+          currentPlain = [];
+        }
+        result.push({ type: 'special', text: word });
+      } else {
+        currentPlain.push(word);
+      }
+    }
+    if (currentPlain.length > 0) {
+      result.push({ type: 'plain', text: currentPlain.join(" ") });
+    }
+    return result;
+  }, [text]);
   
   const getWordWrap = (word: string) => {
     const cleanWord = word.replace(/[^a-zA-Z0-9-]/g, '');
@@ -50,12 +73,12 @@ const TypewriterText = ({ text, className = "" }: { text: string; className?: st
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={{
-        visible: { transition: { staggerChildren: 0.05 } },
+        visible: { transition: { staggerChildren: 0.1 } },
         hidden: {},
       }}
       className={`inline-block ${className} flex flex-wrap`}
     >
-      {words.map((word, i) => (
+      {tokens.map((token, i) => (
         <Fragment key={i}>
           <motion.span
             variants={{
@@ -65,7 +88,7 @@ const TypewriterText = ({ text, className = "" }: { text: string; className?: st
             transition={{ duration: 0.4 }}
             className="inline-block"
           >
-            {getWordWrap(word)}
+            {token.type === 'special' ? getWordWrap(token.text) : token.text}
           </motion.span>
           <span className="inline-block w-2 md:w-2.5"></span>
         </Fragment>

@@ -27,14 +27,12 @@ const Galaxy: React.FC = () => {
   const sunOpacity = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0]);
 
   const dustParticles = React.useMemo(() => {
-    return Array.from({ length: 40 }).map((_, i) => ({
+    return Array.from({ length: 20 }).map((_, i) => ({
       id: `dust-${i}`,
       size: Math.random() * 3 + 1,
       left: (Math.random() - 0.5) * 800,
       top: (Math.random() - 0.5) * 800,
-      rotateDuration: 20 + Math.random() * 40,
-      scaleDuration: 2 + Math.random() * 2,
-      opacityDuration: 2 + Math.random() * 2,
+      pulseDuration: 2 + Math.random() * 3,
     }));
   }, []);
 
@@ -130,7 +128,7 @@ const Galaxy: React.FC = () => {
         ))}
           
         {dustParticles.map((dust) => (
-          <motion.div
+          <div
             key={dust.id}
             className="absolute rounded-full bg-white/40"
             style={{
@@ -138,12 +136,7 @@ const Galaxy: React.FC = () => {
               height: dust.size,
               left: dust.left,
               top: dust.top,
-            }}
-            animate={{ rotate: -360, scale: [1, 1.5, 1], opacity: [0.2, 0.8, 0.2] }}
-            transition={{
-              rotate: { duration: dust.rotateDuration, repeat: Infinity, ease: 'linear' },
-              scale: { duration: dust.scaleDuration, repeat: Infinity },
-              opacity: { duration: dust.opacityDuration, repeat: Infinity }
+              animation: `dust-pulse ${dust.pulseDuration}s infinite ease-in-out`,
             }}
           />
         ))}

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 
 const pickTarget = () => ({
   x: 80 + Math.random() * Math.max(window.innerWidth - 160, 1),
@@ -89,19 +88,15 @@ const WanderingBee = () => {
          viewBox="0 0 24 24" 
          className="w-full h-full drop-shadow-[0_0_8px_rgba(250,204,21,0.6)]" 
       >
-        <motion.path
+        <path
           d="M 13 9 C 10 2 14 -2 21 2 C 20 8 17 11 13 9 Z"
           fill="rgba(255,255,255,0.9)"
-          style={{ originX: "13px", originY: "9px" }}
-          animate={{ rotateZ: [-18, 20, -18], scaleY: [1, 0.5, 1] }}
-          transition={{ duration: 0.04, repeat: Infinity, ease: "linear" }}
+          className="wandering-bee-wing wandering-bee-wing-left"
         />
-        <motion.path
+        <path
           d="M 15 9 C 16 2 22 1 24 7 C 22 12 18 13 15 9 Z"
           fill="rgba(255,255,255,0.82)"
-          style={{ originX: "15px", originY: "9px" }}
-          animate={{ rotateZ: [16, -18, 16], scaleY: [1, 0.55, 1] }}
-          transition={{ duration: 0.04, repeat: Infinity, ease: "linear", delay: 0.02 }}
+          className="wandering-bee-wing wandering-bee-wing-right"
         />
         
         <path d="M 6 12 L 9 7 L 17 7 L 20 12 L 17 17 L 9 17 Z" fill="#FACC15" />

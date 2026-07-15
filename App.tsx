@@ -83,8 +83,6 @@ const App: React.FC = () => {
   const textOpacity = useTransform(scrollY, [scrollLimit * 0.3, scrollLimit * 0.8], [1, 0]);
   const overlayOpacity = useTransform(scrollY, [scrollLimit * 0.8, scrollLimit], [1, 0]);
   const scrollPromptOpacity = useTransform(scrollY, [0, 100], [1, 0]);
-  const introLogoWidth = useTransform(textScale, (scale) => `min(${75 * scale}vw, ${50 * scale}rem)`);
-  const introLogoGlowFilter = useTransform(textScale, (scale) => `blur(${40 * scale}px)`);
   const introTaglineOpacity = useTransform(scrollY, [0, scrollLimit * 0.2], [1, 0]);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -147,22 +145,27 @@ const App: React.FC = () => {
         className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none overflow-hidden"
         style={{ opacity: textOpacity }}
       >
-        <motion.div
+        <div
           className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-          style={{ width: introLogoWidth }}
+          style={{ width: 'min(75vw, 50rem)' }}
         >
           <motion.div
-            className="absolute inset-0 bg-black/80 rounded-[100%] pointer-events-none"
-            style={{ filter: introLogoGlowFilter }}
-          />
-          <img
-            src="/hackhive.png"
-            alt="HackHive"
-            width="18000"
-            height="10125"
-            className="w-full h-auto relative z-10 pointer-events-none object-contain"
-          />
-        </motion.div>
+            className="w-full relative flex items-center justify-center"
+            style={{ scale: textScale }}
+          >
+            <div
+              className="absolute inset-0 bg-black/80 rounded-[100%] pointer-events-none"
+              style={{ filter: 'blur(40px)' }}
+            />
+            <img
+              src="/hackhive.png"
+              alt="HackHive"
+              width="18000"
+              height="10125"
+              className="w-full h-auto relative z-10 pointer-events-none object-contain"
+            />
+          </motion.div>
+        </div>
         <motion.p
           className="absolute left-1/2 top-[calc(50%+min(28vw,19rem))] z-10 -translate-x-1/2 font-mono text-gray-400 tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-xs uppercase text-center whitespace-nowrap"
           style={{ opacity: introTaglineOpacity }}

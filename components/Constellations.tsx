@@ -29,7 +29,7 @@ const Constellations = () => {
     window.addEventListener('resize', setSize);
 
     const particles: Particle[] = [];
-    const particleCount = Math.floor(width * height / PARTICLE_DENSITY);
+    const particleCount = Math.min(120, Math.floor((width * height) / 6000));
 
     class Particle {
       x: number;
@@ -62,17 +62,18 @@ const Constellations = () => {
         if (mouseX !== POINTER_OFFSCREEN) {
           const dx = mouseX - this.x;
           const dy = mouseY - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 1) return;
-
-          const forceDirectionX = dx / distance;
-          const forceDirectionY = dy / distance;
+          const distanceSquared = dx * dx + dy * dy;
           const maxDistance = 150;
-          const force = Math.max(0, (maxDistance - distance) / maxDistance);
-          
-          if (distance < maxDistance) {
-            this.x -= forceDirectionX * force * 5;
-            this.y -= forceDirectionY * force * 5;
+          if (distanceSquared < maxDistance * maxDistance) {
+            const distance = Math.sqrt(distanceSquared);
+            if (distance >= 1) {
+              const forceDirectionX = dx / distance;
+              const forceDirectionY = dy / distance;
+              const force = (maxDistance - distance) / maxDistance;
+              
+              this.x -= forceDirectionX * force * 5;
+              this.y -= forceDirectionY * force * 5;
+            }
           }
           
           if (this.x !== this.baseX) {
@@ -114,13 +115,16 @@ const Constellations = () => {
 
     const handleVisibilityChange = () => {
       isPageVisible = !document.hidden;
+      if (isPageVisible) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const animate = () => {
       if (!isPageVisible) {
-        animationFrameId = requestAnimationFrame(animate);
         return;
       }
 
@@ -187,9 +191,10 @@ const Constellations = () => {
           
         const dxMouse = mouseX - x;
         const dyMouse = mouseY - y;
-        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+        const distMouseSquared = dxMouse * dxMouse + dyMouse * dyMouse;
           
-        if (distMouse < MOUSE_LINK_DISTANCE) {
+        if (distMouseSquared < MOUSE_LINK_DISTANCE * MOUSE_LINK_DISTANCE) {
+          const distMouse = Math.sqrt(distMouseSquared);
           context.beginPath();
           context.strokeStyle = `rgba(100, 200, 255, ${0.3 - distMouse / MOUSE_LINK_DISTANCE * 0.3})`;
           context.lineWidth = 1;
