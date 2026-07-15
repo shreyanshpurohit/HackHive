@@ -122,3 +122,8 @@ body {
   0%, 100% { transform: scale(1); opacity: 0.2; }
   50% { transform: scale(1.3); opacity: 0.8; }
 }
+
+@keyframes rotate-clockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

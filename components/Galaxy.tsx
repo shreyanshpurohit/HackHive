@@ -93,16 +93,14 @@ const Galaxy: React.FC = () => {
         </motion.div>
   
         {ORBITS.map((orbit, i) => (
-          <motion.div
+          <div
             key={i}
             className="absolute rounded-full border border-white/5"
-            style={{ width: orbit.radius * 2, height: orbit.radius * 2 }}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: orbit.duration,
-              repeat: Infinity,
-              ease: "linear",
-              delay: orbit.delay
+            style={{ 
+              width: orbit.radius * 2, 
+              height: orbit.radius * 2,
+              animation: `rotate-clockwise ${orbit.duration}s linear infinite`,
+              animationDelay: `${orbit.delay}s`,
             }}
           >
             <div
@@ -136,7 +134,7 @@ const Galaxy: React.FC = () => {
                 <circle cx="60" cy="42" r="3" fill="#222" />
               </svg>
             </div>
-          </motion.div>
+          </div>
         ))}
           
         {dustParticles.map((dust) => (
