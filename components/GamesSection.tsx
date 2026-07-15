@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Raycaster from './games/Raycaster';
 import GravitySim from './games/GravitySim';
+import LuckyDice from './games/LuckyDice';
 
 const GAMES = [
   {
@@ -17,6 +18,13 @@ const GAMES = [
     author: '@harmanvij',
     description: 'Hold the mouse and the whole swarm bends toward you. A JavaScript lesson that kept evolving until it became a tactile little physics toy.',
     component: <GravitySim />
+  },
+  {
+    id: 'rd_003',
+    title: 'Lucky Dice',
+    author: '@chirayusinghal',
+    description: 'A tactile physics-based 3D dice rolling toy. Hold space or press-and-hold the button to charge your launch force, release, and let gravity decide your fate.',
+    component: <LuckyDice />
   }
 ];
 
