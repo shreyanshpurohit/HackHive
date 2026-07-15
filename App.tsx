@@ -88,7 +88,7 @@ const App: React.FC = () => {
   const galaxyScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0.5]);
   const galaxyOpacity = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 0]);
 
-  const textScale = useTransform(scrollY, [0, scrollLimit * 0.8], [1, 25]);
+  const textScale = useTransform(scrollY, [0, scrollLimit * 0.8], [0.04, 1]);
   const textOpacity = useTransform(scrollY, [scrollLimit * 0.3, scrollLimit * 0.8], [1, 0]);
   const overlayOpacity = useTransform(scrollY, [scrollLimit * 0.8, scrollLimit], [1, 0]);
   const scrollPromptOpacity = useTransform(scrollY, [0, 100], [1, 0]);
@@ -158,7 +158,7 @@ const App: React.FC = () => {
           >
             <div
               className="absolute left-1/2 top-1/2 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-              style={{ width: 'min(75vw, 50rem)' }}
+              style={{ width: 'min(1875vw, 1250rem)' }}
             >
               {/* Blur backdrop is outside the scaling container so it is cheap to render */}
               <div
@@ -292,7 +292,7 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/80 blur-[60px] rounded-[100%] pointer-events-none -z-10" />
                 <motion.img 
-                  src="/hackhive.webp"
+                  src="/hackhive.svg"
                   alt="HackHive"
                   className="w-full object-contain relative z-10"
                   initial={{ rotateX: 45, opacity: 0, y: 100 }}
