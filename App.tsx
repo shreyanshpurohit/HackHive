@@ -150,7 +150,7 @@ const App: React.FC = () => {
           style={{ width: 'min(70vw, 35rem)' }}
         >
           <motion.div
-            className="w-full relative flex items-center justify-center will-change-transform"
+            className="w-full relative flex items-center justify-center rendering-pixelated"
             style={{ scale: textScale }}
           >
             {/* Hardware-accelerated radial-gradient glow (scales in sync with the logo) */}
@@ -161,9 +161,9 @@ const App: React.FC = () => {
               }}
             />
             <img
-              src="/hackhive.webp"
+              src="/hackhive.svg"
               alt="HackHive"
-              className="w-full h-auto relative z-10 pointer-events-none object-contain"
+              className="w-full h-auto relative z-10 pointer-events-none object-contain rendering-pixelated"
             />
           </motion.div>
         </div>
@@ -270,9 +270,9 @@ const App: React.FC = () => {
               transition={{ duration: 1, delay: 0.2 }}
               className="flex items-center gap-3 md:gap-6 text-[10px] md:text-xs font-mono text-gray-400 tracking-[0.2em] md:tracking-[0.4em] uppercase mb-4 border border-white/10 px-6 py-3 rounded-none backdrop-blur-sm"
             >
-              <span>ONLINE_NOW</span>
+              <span>ADARSH_PUBLIC_SCHOOL</span>
               <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-white animate-pulse rounded-none"/>
-              <span>INDIA_WIDE</span>
+              <span>VIKAS_PURI</span>
             </motion.div>
 
             <motion.div 
@@ -281,9 +281,9 @@ const App: React.FC = () => {
               <div className="relative w-full max-w-4xl mx-auto flex items-center justify-center">
                 <div className="absolute inset-0 bg-black/80 blur-[60px] rounded-[100%] pointer-events-none -z-10" />
                 <motion.img 
-                  src="/hackhive.webp"
+                  src="/hackhive.svg"
                   alt="HackHive"
-                  className="w-full object-contain relative z-10"
+                  className="w-full object-contain relative z-10 rendering-pixelated"
                   initial={{ rotateX: 45, opacity: 0, y: 100 }}
                   animate={{ rotateX: 0, opacity: 1, y: 0 }}
                   transition={{ type: "spring", stiffness: 50, damping: 20 }}
@@ -369,7 +369,7 @@ const App: React.FC = () => {
                 </h2>
                 <div className="w-12 h-px bg-white mb-6"></div>
                 <p className="text-sm md:text-base text-gray-400 mb-8 md:mb-12 font-mono leading-relaxed">
-                  HackHive is an online workbench for teenage builders across India. Bring the half-working game, the impossible PCB, the app nobody asked for, or just a blank file. We will help you make the next version real.
+                  HackHive is a workbench for teenage builders. Bring the half-working game, the impossible PCB, the app nobody asked for, or just a blank file. We will help you make the next version real.
                 </p>
                 
                 <motion.div 
@@ -427,22 +427,19 @@ const App: React.FC = () => {
               <div className="lg:col-span-7 relative h-[300px] md:h-full min-h-[500px] w-full order-1 lg:order-2 border border-white/10 p-2">
                 <div className="relative h-full w-full overflow-hidden group">
                   <img 
-                    src="/hackhive-letter.webp" 
+                    src="/hackhive-letter.png" 
                     alt="HackHive letter h with bees and a honeycomb pattern"
                     width={609}
                     height={665}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-contain bg-[#080b09] p-6 transition-transform duration-700 group-hover:scale-[1.03] md:p-10"
+                    className="h-full w-full object-contain bg-[#080b09] p-6 transition-transform duration-700 group-hover:scale-[1.03] md:p-10 rendering-pixelated"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   
                   <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 flex flex-col gap-2">
                     <div className="text-5xl md:text-8xl font-mono font-light text-white opacity-20">
                       //
-                    </div>
-                    <div className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-gray-400">
-                      SYS_MODE: ONLINE_INDIA
                     </div>
                   </div>
                 </div>
@@ -458,7 +455,7 @@ const App: React.FC = () => {
             <div>
                <div className="font-sans text-xl md:text-2xl font-light tracking-[0.2em] mb-4 text-white">HACKHIVE</div>
                <div className="flex gap-2 text-[10px] font-mono text-gray-600 uppercase tracking-widest">
-                 <span>&copy; {new Date().getFullYear()} HACKHIVE_ONLINE_INDIA</span>
+                 <span>&copy; {new Date().getFullYear()} HACKHIVE_ADARSH_PUBLIC_SCHOOL</span>
                </div>
             </div>
             

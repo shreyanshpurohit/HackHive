@@ -10,7 +10,7 @@ type FAQItem = {
 const FAQ_DATA: FAQItem[] = [
   {
     question: "WHAT IS HACKHIVE?",
-    answer: "HackHive is an online, India-wide Hack Club community for teenagers who make things. Software, hardware, games, art, strange prototypes: if you can build it, break it, and learn from it, it belongs here."
+    answer: "HackHive is a community for teenagers who make things. Software, hardware, games, art, strange prototypes: if you can build it, break it, and learn from it, it belongs here."
   },
   {
     question: "HOW DOES HACKATIME WORK?",
