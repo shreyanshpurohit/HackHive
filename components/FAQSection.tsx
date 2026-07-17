@@ -42,8 +42,8 @@ const FAQSection = () => {
           <span className="font-mono text-gray-500 text-xs md:text-sm tracking-[0.3em] uppercase">NOTES // THINGS PEOPLE ASK</span>
         </div>
 
-        <h2 className="text-3xl md:text-5xl font-sans font-light tracking-widest uppercase mb-16 md:mb-24 text-white">
-          QUESTIONS_<br />WE_GET
+        <h2 className="text-3xl md:text-6xl lg:text-7xl font-sans font-light tracking-widest uppercase leading-none text-white mb-16 md:mb-24">
+          QUESTIONS_<span className="text-white/30">WE_GET</span>
         </h2>
 
         <div className="space-y-4">
