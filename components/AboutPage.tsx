@@ -61,7 +61,7 @@ const COUNCIL: TeamMember[] = [
 const STATS = [
   { value: '25+', label: 'Active Builders' },
   { value: '12+', label: 'Projects Shipped' },
-  { value: '2024', label: 'Founded' },
+  { value: '2026', label: 'Founded' },
   { value: '100%', label: 'Free to Join' },
 ];
 
