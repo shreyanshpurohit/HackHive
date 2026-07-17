@@ -8,22 +8,22 @@ const GlitchText = ({ text, className }: { text: string; className?: string }) =
   const repeatDelays = useMemo(() => [Math.random() * 4 + 2, Math.random() * 4 + 2], []);
 
   return (
-    <span className={`relative inline-block ${className}`}>
+    <span className={`relative inline-block whitespace-nowrap ${className}`}>
       <motion.span
-        className="absolute top-[1px] left-0 -ml-[1px] text-red-500 opacity-50 mix-blend-screen pointer-events-none"
+        className="absolute top-[1px] left-0 -ml-[1px] text-red-500 opacity-50 mix-blend-screen pointer-events-none whitespace-nowrap"
         animate={{ x: [-1, 1, 0], y: [0, 0, 0] }}
         transition={{ duration: 0.1, repeat: Infinity, repeatDelay: repeatDelays[0] }}
       >
         {text}
       </motion.span>
       <motion.span
-        className="absolute -top-[1px] left-0 ml-[1px] text-blue-500 opacity-50 mix-blend-screen pointer-events-none"
+        className="absolute -top-[1px] left-0 ml-[1px] text-blue-500 opacity-50 mix-blend-screen pointer-events-none whitespace-nowrap"
         animate={{ x: [1, -1, 0], y: [0, 0, 0] }}
         transition={{ duration: 0.1, repeat: Infinity, repeatDelay: repeatDelays[1] }}
       >
         {text}
       </motion.span>
-      <span className="relative z-10">{text}</span>
+      <span className="relative z-10 whitespace-nowrap">{text}</span>
     </span>
   );
 };
@@ -156,10 +156,10 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              <GlitchText text="[ 03_ONE_HIVE_NO_POSTCODE ]" />
+              <GlitchText text="[ 03_ONE_HIVE_FOR_APS ]" />
             </div>
             <div className="md:col-span-8 text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
-                <TypewriterText text="HackHive is online and India-wide. Your city, school, grade, and current skill level do not decide whether you belong. Curiosity does. If you are ready to make something and let other people see the work in progress, pull up." />
+                <TypewriterText text="HackHive is the space for builders at Adarsh Public School to design, break, and create. Your grade and current skill level do not decide whether you belong. Curiosity does. If you are ready to make something and let other people see the work in progress, pull up." />
             </div>
           </motion.div>
 
@@ -172,8 +172,8 @@ const StorySection = () => {
           >
             <div className="absolute inset-0 bg-white/5 transform scale-y-0 group-hover:scale-y-100 origin-bottom transition-transform duration-500" />
             <div className="relative z-10 flex flex-col items-start gap-8">
-              <h3 className="text-2xl md:text-4xl font-sans font-light text-white tracking-widest uppercase">
-                <GlitchText text="Bring the bug. Find the breakthrough." />
+              <h3 className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-sans font-light text-white tracking-wider uppercase whitespace-nowrap">
+                Bring the bug. Find the <GlitchText text="breakthrough." />
               </h3>
               <p className="text-gray-400 font-mono text-xs md:text-sm leading-relaxed max-w-2xl">
                 No application essay. No “expert” badge. Bring one idea, one broken build, or one question worth chasing. The goal is simple: leave with something that exists because you showed up.

@@ -70,7 +70,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 {tag}
               </span>
             ))}
-          </div>cl
+          </div>
           <div className="flex items-center justify-between">
             <h3 className="text-xl md:text-2xl font-light font-sans uppercase text-white truncate pr-4">
               {project.title}
