@@ -10,18 +10,16 @@ const GlitchText = ({ text, className }: { text: string; className?: string }) =
   return (
     <span className={`relative inline-block whitespace-nowrap ${className}`}>
       <motion.span
-        className="absolute left-0 text-red-500 opacity-80 mix-blend-screen pointer-events-none whitespace-nowrap"
-        style={{ top: '1.2px', marginLeft: '-1.2px' }}
-        animate={{ x: [-1.5, 1.2, -0.8, 0.8, 0], y: [-0.5, 0.5, 0] }}
-        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: repeatDelays[0] }}
+        className="absolute top-[1px] left-0 -ml-[1px] text-red-500 opacity-50 mix-blend-screen pointer-events-none whitespace-nowrap"
+        animate={{ x: [-1, 1, 0], y: [0, 0, 0] }}
+        transition={{ duration: 0.1, repeat: Infinity, repeatDelay: repeatDelays[0] }}
       >
         {text}
       </motion.span>
       <motion.span
-        className="absolute left-0 text-blue-500 opacity-80 mix-blend-screen pointer-events-none whitespace-nowrap"
-        style={{ top: '-1.2px', marginLeft: '1.2px' }}
-        animate={{ x: [1.5, -1.2, 0.8, -0.8, 0], y: [0.5, -0.5, 0] }}
-        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: repeatDelays[1] }}
+        className="absolute -top-[1px] left-0 ml-[1px] text-blue-500 opacity-50 mix-blend-screen pointer-events-none whitespace-nowrap"
+        animate={{ x: [1, -1, 0], y: [0, 0, 0] }}
+        transition={{ duration: 0.1, repeat: Infinity, repeatDelay: repeatDelays[1] }}
       >
         {text}
       </motion.span>
@@ -117,7 +115,7 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              [ 01_NOT_A_CLASS ]
+              <GlitchText text="[ 01_NOT_A_CLASS ]" />
             </div>
             <div className="md:col-span-8 text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
               <TypewriterText text="HackHive is not another place to watch someone else code. It is where your weird idea gets a repo, a circuit, a playtest, and a deadline. Build it. Break it. Ask the question. Fix one thing. Then show us what changed." />
@@ -132,7 +130,7 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              [ 02_PROOF_OVER_POLISH ]
+              <GlitchText text="[ 02_PROOF_OVER_POLISH ]" />
             </div>
             <div className="md:col-span-8 flex flex-col gap-6">
               <div className="text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
@@ -158,7 +156,7 @@ const StorySection = () => {
             className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start"
           >
             <div className="md:col-span-4 font-mono text-gray-500 text-xs tracking-widest uppercase mt-2">
-              [ 03_ONE_HIVE_FOR_APS ]
+              <GlitchText text="[ 03_ONE_HIVE_FOR_APS ]" />
             </div>
             <div className="md:col-span-8 text-xl md:text-3xl font-sans font-light leading-relaxed text-gray-300">
                 <TypewriterText text="HackHive is the space for builders at Adarsh Public School to design, break, and create. Your grade and current skill level do not decide whether you belong. Curiosity does. If you are ready to make something and let other people see the work in progress, pull up." />

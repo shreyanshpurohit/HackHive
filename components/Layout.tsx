@@ -21,6 +21,10 @@ const Layout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const navLinkClass = (path: string) =>
     `hover:text-gray-400 transition-colors cursor-pointer bg-transparent border-none font-mono text-xs tracking-widest uppercase no-underline ${
       location.pathname === path ? 'text-gray-400' : 'text-white'
@@ -110,17 +114,9 @@ const Layout: React.FC = () => {
       </AnimatePresence>
 
       {/* Page content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Outlet />
-        </motion.div>
-      </AnimatePresence>
+      <div className="relative z-10">
+        <Outlet />
+      </div>
     </div>
   );
 };
