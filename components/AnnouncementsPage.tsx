@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Megaphone, Clock, Tag, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, Clock, Tag, ChevronRight } from 'lucide-react';
 
 type AnnouncementCategory = 'ALL' | 'EVENT' | 'PROJECT' | 'COMMUNITY' | 'GRANT';
 
@@ -20,9 +20,9 @@ const ANNOUNCEMENTS: Announcement[] = [
     id: 'ann-000',
     date: '2026-07-17',
     category: 'EVENT',
-    title: 'ONLINE WORKSHOP — SUNDAY 20 JULY',
+    title: 'ONLINE WORKSHOP — SUNDAY 19 JULY',
     summary: 'A hands-on online session where we walk through getting everything set up — tools, editors, Hackatime, and your first project.',
-    body: `We are running an online workshop this Sunday, 20 July.
+    body: `We are running an online workshop this Sunday, 19 July.
 
 We will walk through the full setup from scratch: installing the right tools, configuring your editor, getting Hackatime tracking your work, and creating your first project repository.
 
@@ -83,7 +83,6 @@ const AnnouncementsPage: React.FC = () => {
             </span>
           </div>
           <div className="flex items-start gap-6 mb-6">
-            <Megaphone className="w-8 h-8 md:w-12 md:h-12 text-white/20 mt-2 shrink-0" />
             <h1 className="text-4xl md:text-7xl lg:text-8xl font-sans font-light tracking-widest uppercase leading-none">
               ANNOUNCE<span className="text-white/30">MENTS_</span>
             </h1>

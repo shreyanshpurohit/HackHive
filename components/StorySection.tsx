@@ -173,7 +173,8 @@ const StorySection = () => {
             <div className="absolute inset-0 bg-white/5 transform scale-y-0 group-hover:scale-y-100 origin-bottom transition-transform duration-500" />
             <div className="relative z-10 flex flex-col items-start gap-8">
               <h3 className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-sans font-light text-white tracking-wider uppercase whitespace-nowrap">
-                Bring the bug. Find the <GlitchText text="breakthrough." />
+                Bring the bug. Find the <br />
+                <GlitchText text="breakthrough." />
               </h3>
               <p className="text-gray-400 font-mono text-xs md:text-sm leading-relaxed max-w-2xl">
                 No application essay. No “expert” badge. Bring one idea, one broken build, or one question worth chasing. The goal is simple: leave with something that exists because you showed up.

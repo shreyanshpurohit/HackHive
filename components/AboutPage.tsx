@@ -44,7 +44,7 @@ const COUNCIL: TeamMember[] = [
   },
   {
     name: 'Harman Vij',
-    handle: '@harmon',
+    handle: '@harman',
     role: 'SECRETARY',
     roleTag: 'SEC',
     bio: 'Ships games that should not work. They do.',
